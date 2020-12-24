@@ -1,15 +1,78 @@
----
-layout: default
----
-<!--[if lt IE 7]>
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>James Magnarelli</title>
+    <meta name="description" content="
+    
+    I'm a Software Developer in the Boston area. I enjoy building things through rapid experimentation with customers.
+    ">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="/styles/foundation.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Voces' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</head>
+
+
+    <body class="container-thing background
+    ">
+
+    <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-{% include top_nav.html %}
+<div id="homepage-display" 
+     >
+  <div class="row">
+      <div class="large-12 columns">
+          <h1 class="text-center" id="name-header"><a href="/#"> <span class="first">
+              <span id="first-first">J</span>ames
+            </span>
+            <span class="last">
+            <span id="first-last">M</span>agnarelli
+            </span>
+          </a></h1>
+      </div>
+  </div>
+  <div class="nav-stuff">
+    <div class="row">
+      <div class="text-center">
+        <a id="nav-who" class="nav-link" href="/#who">
+          <div class="nav-text">who</div>
+          <div class="nav-help-text">about</div>
+        </a>
+        <a id="nav-what" class="nav-link" href="/#what">
+          <div class="nav-text">what</div>
+          <div class="nav-help-text">projects</div>
+        </a>
+        <a id="nav-when"class="nav-link" href="/#when">
+          <div class="nav-text">when</div>
+          <div class="nav-help-text">career</div>
+        </a>
+        <a id="nav-where"class="nav-link" href="/#where">
+          <div class="nav-text">where</div>
+          <div class="nav-help-text">contact</div>
+        </a>
+        <a id="nav-why"class="nav-link" href="/#why">
+          <div class="nav-text">why</div>
+          <div class="nav-help-text">blog</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="content-container row" id="who-container">
   <div class="large-12 columns">
     <p>Hi, I'm James. I'm a computer programmer who likes to read and occasionally gets outside.</p>
-    
+    <p>I spend some of my time working on personal <a href="#what">projects</a>, most of which are available on <a href="http://www.github.com/jmagnarelli">GitHub</a>.</p>
+    <p>
+      When I'm not coding, I like to mountain bike, play guitar (I'm still learning), and travel. I can also make good pizza.
+    </p>
     <p>I'm currently a Software Engineer at <a href="http://www.product.hubspot.com">HubSpot</a> and a recent graduate of <a href="http://www.northeastern.edu">Northeastern University</a>.</p>
   </div>
 </div>
@@ -149,25 +212,69 @@ layout: default
 </div>
 <div class="content-container row" id="why-container">
   <div class="large-12 columns text-center">
-    {% for post in site.posts %}
-    <div class='row info-listing'>
-      <div class='large-4 columns'>
-        <div class='row'><a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></div>
-        <div class='row post-information'>
-          <div class="large-4 columns job-title">{{ post.date | date: "%b %-d, %Y" }}</div>
-          <div class="large-8 columns job-title right">
-            {% for category in post.categories %}
-            <a class="blog-category-link" href="{{ site.baseurl }}blog/categories/{{ category }}">{{ category }}</a>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class='large-8 columns'>
-        {{ post.excerpt }}
-      </div>
-    </div>
-    {% endfor %}
+    
 
-    <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+    <p class="rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a></p>
   </div>
 </div>
+
+
+    </body>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!-- TODO (jmagnarelli): figure out a better way to do this small-home stuff so it works for people w/o JS -->
+  <!-- TODO (jmagnarelli): maybe move this code out into a separate file -->
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      // Let's slip into something a little more comfortable...
+      if ((document.referrer.indexOf('magnarelli.sexy') > -1) && (self != top)) {
+        $('body').addClass('sexy-background')
+        $('body').removeClass('background')
+      }
+      // Only include single page grow/shrink stuff if we're not in the blog
+      
+
+      // Go to the appropriate location (no :target stuff to avoid 'jumps')
+      if (location.hash) {
+        $('#homepage-display').addClass('small-home');
+        $(location.hash + '-container').addClass('current-content');
+      } else {
+        $('#homepage-display').removeClass('small-home');
+      }
+
+      // Force redraw so we don't apply page-loaded and apply transitions too early
+      $('body').hide().show(0);
+      
+      // Do the cool name thing
+      $('body').addClass('page-loaded');
+      
+
+
+    })
+
+    // Only include single page grow/shrink stuff if we're not in the blog
+    
+    // Navigation
+    $('#name-header').click(function() { 
+                          $('#homepage-display').removeClass('small-home');
+                          $('.content-container').removeClass('current-content');
+                        });
+    $('.nav-link').click(function() { 
+                                    $('#homepage-display').addClass('small-home');
+                                    var target = $(this).attr('id').substring(4) + '-container';
+                                    $('.content-container').removeClass('current-content');
+                                    $('#' + target).addClass('current-content');
+                                  });
+    
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-49974915-1', 'magnarelli.org');
+    ga('send', 'pageview');
+  </script>
+</html>
